@@ -1,0 +1,589 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card-border: hsl(var(--card-border));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover-border: hsl(var(--popover-border));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-border: var(--primary-border);
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary-border: var(--secondary-border);
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted-border: var(--muted-border);
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent-border: var(--accent-border);
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive-border: var(--destructive-border);
+
+  --font-sans: var(--app-font-sans);
+  --font-serif: var(--app-font-serif);
+  --font-mono: var(--app-font-mono);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --background: 0 0% 11%;
+  --foreground: 0 0% 100%;
+  --border: 0 0% 100% / 0.08;
+  --card: 0 0% 5%;
+  --card-foreground: 0 0% 100%;
+  --card-border: 0 0% 100% / 0.08;
+  
+  --popover: 0 0% 5%;
+  --popover-foreground: 0 0% 100%;
+  --popover-border: 0 0% 100% / 0.08;
+  
+  --primary: 175 60% 55%;
+  --primary-foreground: 0 0% 100%;
+  
+  --secondary: 0 0% 15%;
+  --secondary-foreground: 0 0% 100%;
+  
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 65%;
+  
+  --accent: 0 0% 15%;
+  --accent-foreground: 0 0% 100%;
+  
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  
+  --input: 0 0% 100% / 0.08;
+  --ring: 175 60% 55%;
+
+  --app-font-sans: 'Inter', sans-serif;
+  --app-font-serif: Georgia, serif;
+  --app-font-mono: Menlo, monospace;
+  --radius: 18px; 
+}
+
+.dark {
+  --background: 0 0% 11%;
+  --foreground: 0 0% 100%;
+  --border: 0 0% 100% / 0.08;
+  --card: 0 0% 5%;
+  --card-foreground: 0 0% 100%;
+  --card-border: 0 0% 100% / 0.08;
+  --popover: 0 0% 5%;
+  --popover-foreground: 0 0% 100%;
+  --popover-border: 0 0% 100% / 0.08;
+  --primary: 175 60% 55%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 15%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 65%;
+  --accent: 0 0% 15%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --input: 0 0% 100% / 0.08;
+  --ring: 175 60% 55%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply font-sans antialiased bg-background text-foreground min-h-screen overflow-x-hidden;
+  }
+}
+
+/* Custom UI Components from HTML */
+.glass-panel {
+  @apply bg-card rounded-[18px] border border-white/10 relative overflow-hidden;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.navbar-container {
+  @apply fixed top-[30px] left-1/2 -translate-x-1/2 z-[1000] w-[calc(100%-60px)] max-w-[1000px] transition-all duration-300;
+}
+
+@media (max-width: 992px) {
+  .navbar-container {
+    @apply top-[20px] w-[calc(100%-30px)];
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-container {
+    @apply top-[15px] w-[calc(100%-20px)];
+  }
+}
+
+.navbar {
+  @apply bg-[#0d0d0d]/80 backdrop-blur-[20px] border border-white/10 rounded-[50px] flex items-center justify-between px-6 py-3 relative overflow-hidden transition-all duration-300;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.navbar::before {
+  content: '';
+  @apply absolute top-0 left-[-100%] w-full h-full rounded-[50px] transition-all duration-700 overflow-hidden pointer-events-none;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+.navbar:hover::before {
+  @apply left-full;
+}
+
+.navbar:hover {
+  @apply -translate-y-[2px];
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.logo-icon {
+  @apply w-10 h-10 rounded-full flex items-center justify-center relative overflow-hidden;
+  background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.logo-icon::before {
+  content: '';
+  @apply absolute w-5 h-5 rounded-full bg-white/90;
+  animation: logo-pulse 2s ease-in-out infinite;
+}
+
+@keyframes logo-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+.brand-text {
+  background: linear-gradient(135deg, #ffffff, #f0f0f0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav-link {
+  @apply flex items-center gap-1.5 px-4 py-2.5 text-white/90 font-medium text-sm rounded-full transition-all duration-300 relative overflow-hidden whitespace-nowrap;
+}
+
+.nav-link::before {
+  content: '';
+  @apply absolute inset-0 opacity-0 transition-opacity duration-300 rounded-full;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+}
+
+.nav-link:hover::before {
+  @apply opacity-100;
+}
+
+.nav-link:hover {
+  @apply text-white -translate-y-[2px];
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.nav-link.active {
+  @apply text-white;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-wrapper {
+  @apply relative z-[100];
+  filter: url(#goo);
+}
+
+.profile-btn {
+  @apply w-10 h-10 rounded-full bg-white/15 border-[1.5px] border-white/30 flex items-center justify-center cursor-pointer transition-all duration-300 relative z-[2] backdrop-blur-[10px];
+}
+
+.profile-btn:hover {
+  @apply bg-white/25 scale-105;
+}
+
+.profile-dropdown {
+  @apply absolute right-0 top-[50%] w-[160px] bg-white/15 backdrop-blur-[20px] border border-white/20 rounded-[20px] py-3 list-none invisible opacity-0 z-[1] transition-all duration-300;
+}
+
+.profile-dropdown::before {
+  content: "";
+  @apply absolute bottom-full right-[14px] h-10 w-5 rounded-b-[10px] bg-white/15;
+}
+
+.profile-wrapper.open .profile-dropdown {
+  @apply top-[calc(100%+22px)] visible opacity-100;
+}
+
+.page-content {
+  @apply pt-[110px] pb-10 w-[calc(100%-60px)] max-w-[1000px] mx-auto flex flex-col gap-8;
+}
+
+/* ── Glow Buttons ── */
+.btn-glow-wrap {
+  position: relative;
+  display: inline-flex;
+  height: 50px;
+  flex-shrink: 0;
+}
+
+.btn-glow-wrap > a,
+.btn-glow-wrap > button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 15px 15px rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: none;
+  border-right: none;
+  border-radius: 30px;
+  padding: 10px 28px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  overflow: hidden;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  z-index: 1;
+  transition: 0.5s;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-glow-wrap:hover > a,
+.btn-glow-wrap:hover > button {
+  letter-spacing: 3px;
+}
+
+.btn-glow-wrap > a::before,
+.btn-glow-wrap > button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.15), transparent);
+  transform: skewX(45deg) translate(0);
+  transition: 0.5s;
+}
+
+.btn-glow-wrap:hover > a::before,
+.btn-glow-wrap:hover > button::before {
+  transform: skewX(45deg) translate(200px);
+}
+
+.btn-glow-wrap::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -5px;
+  width: 30px;
+  height: 10px;
+  border-radius: 10px;
+  transition: 0.5s;
+  z-index: 0;
+}
+
+.btn-glow-wrap:hover::before {
+  bottom: 0;
+  height: 50%;
+  width: 80%;
+  border-radius: 30px;
+}
+
+.btn-glow-wrap::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -5px;
+  width: 30px;
+  height: 10px;
+  border-radius: 10px;
+  transition: 0.5s;
+  z-index: 0;
+}
+
+.btn-glow-wrap:hover::after {
+  top: 0;
+  height: 50%;
+  width: 80%;
+  border-radius: 30px;
+}
+
+.btn-glow-pink::before,
+.btn-glow-pink::after {
+  background: #ff1f71;
+  box-shadow: 0 0 5px #ff1f71, 0 0 15px #ff1f71, 0 0 30px #ff1f71, 0 0 60px #ff1f71;
+}
+
+.btn-glow-red::before,
+.btn-glow-red::after {
+  background: #991b1b;
+  box-shadow: 0 0 5px #cc0000, 0 0 15px #8b0000, 0 0 30px #7f1d1d, 0 0 60px #7f1d1d;
+}
+
+/* ── Sparkle Badge ── */
+.badge-spark {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 16px;
+  color: white;
+  font-weight: 600;
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+  user-select: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  width: fit-content;
+  cursor: default;
+}
+
+.badge-spark .spark {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: -10px;
+  right: -2px;
+  transform: rotate(-20deg);
+  filter: blur(0.5px);
+}
+
+.badge-spark .spark::before,
+.badge-spark .spark::after {
+  content: "";
+  position: absolute;
+}
+
+.badge-spark .spark::before {
+  width: 1px;
+  height: 100%;
+  left: 10px;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.85), transparent);
+}
+
+.badge-spark .spark::after {
+  width: 100%;
+  height: 1px;
+  top: 10px;
+  background: linear-gradient(to left, transparent, rgba(255, 255, 255, 0.85), transparent);
+}
+
+.badge-spark:hover .spark::after,
+.badge-spark:hover .spark::before {
+  animation: spark-rotate 3s ease-in-out;
+}
+
+@keyframes spark-rotate {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.8); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@media (max-width: 992px) {
+  .page-content {
+    @apply w-[calc(100%-30px)] pt-[95px];
+  }
+}
+
+@media (max-width: 480px) {
+  .page-content {
+    @apply w-[calc(100%-24px)] pt-[85px] gap-5;
+  }
+}
+
+/* ── Astral Super Button ── */
+.astral-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 14px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.35s ease;
+  background: #0d0d0d;
+  border: none;
+  text-decoration: none;
+  z-index: 1;
+}
+
+.astral-btn::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  padding: 2px;
+  border-radius: 16px;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    #4ecdc4 0%,
+    #ff6b6b 25%,
+    #a855f7 50%,
+    #4ecdc4 75%,
+    #ff6b6b 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: astral-border-spin 3s linear infinite;
+}
+
+.astral-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(78,205,196,0.12) 0%, rgba(255,107,107,0.08) 100%);
+  z-index: -1;
+}
+
+.astral-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 28px rgba(78,205,196,0.18), 0 0 60px rgba(255,107,107,0.08);
+}
+
+.astral-btn:active {
+  transform: scale(0.98);
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes astral-border-spin {
+  0%   { --angle: 0deg; }
+  100% { --angle: 360deg; }
+}
+
+/* ── Astral Orb Loader ── */
+.astral-orb-loader {
+  position: relative;
+  width: 96px;
+  height: 96px;
+}
+
+/* Outer rotating ring */
+.orb-shell {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border-top: 1.5px solid rgba(78, 205, 196, 0.7);
+  border-right: 1.5px solid transparent;
+  border-bottom: 1.5px solid rgba(255, 107, 107, 0.6);
+  border-left: 1.5px solid transparent;
+  animation: orb-spin 1.8s linear infinite;
+}
+
+/* Second ring — counter-rotates */
+.orb-shell::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border-top: 1px solid transparent;
+  border-right: 1px solid rgba(168, 85, 247, 0.5);
+  border-bottom: 1px solid transparent;
+  border-left: 1px solid rgba(78, 205, 196, 0.4);
+  animation: orb-spin-reverse 2.4s linear infinite;
+}
+
+/* The glowing orb body */
+.orb-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 38% 35%,
+    rgba(78, 205, 196, 0.85) 0%,
+    rgba(78, 205, 196, 0.4) 30%,
+    rgba(255, 107, 107, 0.5) 65%,
+    rgba(168, 85, 247, 0.3) 100%
+  );
+  animation: orb-breathe 3s ease-in-out infinite;
+  box-shadow:
+    0 0 24px rgba(78, 205, 196, 0.35),
+    0 0 60px rgba(78, 205, 196, 0.15),
+    inset 0 0 24px rgba(255, 255, 255, 0.08);
+}
+
+/* Specular highlight */
+.orb-fill::before {
+  content: "";
+  position: absolute;
+  top: 14%;
+  left: 20%;
+  width: 28%;
+  height: 18%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  filter: blur(3px);
+}
+
+@keyframes orb-spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes orb-spin-reverse {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+
+@keyframes orb-breathe {
+  0%, 100% {
+    opacity: 0.85;
+    box-shadow:
+      0 0 20px rgba(78, 205, 196, 0.3),
+      0 0 50px rgba(78, 205, 196, 0.12);
+  }
+  50% {
+    opacity: 1;
+    box-shadow:
+      0 0 36px rgba(78, 205, 196, 0.55),
+      0 0 90px rgba(78, 205, 196, 0.22),
+      0 0 120px rgba(255, 107, 107, 0.1);
+  }
+}
