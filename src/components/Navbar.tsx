@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
-import { Home, CreditCard, Layers, Store, Menu, X, User, LogOut, Settings, Crown, Coins, Zap, ChevronRight } from "lucide-react";
+import { Home, CreditCard, Layers, Store, Menu, X, User, LogOut, Settings, Crown, Coins, Gem, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/auth";
 import iconImg from "@/assets/icon.jpg";
@@ -42,7 +42,7 @@ export function Navbar() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const userInitials = user ? user.username.slice(0, 2).toUpperCase() : null;
+  const userInitials = user ? user.name.slice(0, 2).toUpperCase() : null;
   const accentColor = user ? (CLASS_ACCENT[user.class] ?? "#4ecdc4") : "#4ecdc4";
 
   return (
@@ -105,7 +105,7 @@ export function Navbar() {
                         </div>
                       )}
                     </div>
-                    <span className="text-white/80 text-sm font-medium max-w-[80px] truncate hidden lg:block">{user.username}</span>
+                    <span className="text-white/80 text-sm font-medium max-w-[80px] truncate hidden lg:block">{user.name}</span>
                   </button>
 
                   {/* Animated dropdown */}
@@ -142,8 +142,8 @@ export function Navbar() {
                         {userInitials}
                       </div>
                       <div className="min-w-0">
-                        <div className="font-bold text-sm text-white truncate">{user.username}</div>
-                        <div className="text-[11px] text-white/40 truncate">{user.email}</div>
+                        <div className="font-bold text-sm text-white truncate">{user.name}</div>
+                        <div className="text-[11px] text-white/40 truncate font-mono">+{user.phone}</div>
                         <div className="text-[10px] mt-0.5" style={{ color: accentColor }}>Lv.{user.level} {user.class}</div>
                       </div>
                     </div>
@@ -153,20 +153,20 @@ export function Navbar() {
                       <div className="flex-1 flex flex-col items-center py-3">
                         <div className="flex items-center gap-1 text-amber-400 mb-0.5">
                           <Coins className="w-3 h-3" />
-                          <span className="text-[11px] font-bold">{(user.gold / 1000).toFixed(1)}K</span>
+                          <span className="text-[11px] font-bold">{user.solars >= 1000 ? `${(user.solars / 1000).toFixed(1)}K` : user.solars}</span>
                         </div>
-                        <span className="text-[9px] text-white/30 uppercase tracking-wider">Gold</span>
-                      </div>
-                      <div className="flex-1 flex flex-col items-center py-3">
-                        <div className="flex items-center gap-1 text-[#4ecdc4] mb-0.5">
-                          <Zap className="w-3 h-3" />
-                          <span className="text-[11px] font-bold">{user.coins}</span>
-                        </div>
-                        <span className="text-[9px] text-white/30 uppercase tracking-wider">Coins</span>
+                        <span className="text-[9px] text-white/30 uppercase tracking-wider">Solars</span>
                       </div>
                       <div className="flex-1 flex flex-col items-center py-3">
                         <div className="flex items-center gap-1 text-purple-400 mb-0.5">
-                          <span className="text-[11px] font-bold">{Math.floor(user.level * 2.3)}</span>
+                          <Gem className="w-3 h-3" />
+                          <span className="text-[11px] font-bold">{user.darkCrystals}</span>
+                        </div>
+                        <span className="text-[9px] text-white/30 uppercase tracking-wider">DC</span>
+                      </div>
+                      <div className="flex-1 flex flex-col items-center py-3">
+                        <div className="flex items-center gap-1 text-[#4ecdc4] mb-0.5">
+                          <span className="text-[11px] font-bold">{user.dungeonsCleared}</span>
                         </div>
                         <span className="text-[9px] text-white/30 uppercase tracking-wider">Clears</span>
                       </div>
@@ -176,7 +176,7 @@ export function Navbar() {
                     <div className="p-1.5">
                       {[
                         { href: "/profile", icon: User, label: "View Profile" },
-                        { href: "/topup", icon: Crown, label: "Buy Coins" },
+                        { href: "/topup", icon: Crown, label: "Buy Dark Crystals" },
                         { href: "/settings", icon: Settings, label: "Settings" },
                       ].map((item) => {
                         const Icon = item.icon;
@@ -274,11 +274,11 @@ export function Navbar() {
                 {userInitials}
               </div>
               <div className="min-w-0 flex-1">
-                <div className="font-bold text-white">{user.username}</div>
+                <div className="font-bold text-white">{user.name}</div>
                 <div className="text-sm" style={{ color: accentColor }}>Lv.{user.level} {user.class}</div>
                 <div className="flex gap-3 mt-1">
-                  <span className="text-xs text-amber-400">🪙 {user.gold.toLocaleString()}</span>
-                  <span className="text-xs text-[#4ecdc4]">⚡ {user.coins}</span>
+                  <span className="text-xs text-amber-400">🪙 {user.solars.toLocaleString()}</span>
+                  <span className="text-xs text-purple-400">💎 {user.darkCrystals}</span>
                 </div>
               </div>
               <Link href="/profile" onClick={() => setIsMobileMenuOpen(false)} className="text-white/30 hover:text-white transition-colors">
