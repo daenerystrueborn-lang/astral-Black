@@ -10,9 +10,7 @@
   },
   "dependencies": {
     "express": "^4.18.2",
-    "http-proxy-middleware": "^2.0.6"
-  },
-  "devDependencies": {
+    "http-proxy-middleware": "^2.0.6",
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-accordion": "^1.2.4",
     "@radix-ui/react-alert-dialog": "^1.1.7",
