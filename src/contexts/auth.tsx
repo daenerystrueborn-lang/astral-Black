@@ -72,8 +72,9 @@ interface AuthContextType {
   user:          User | null
   isLoading:     boolean
   error:         string | null
-  // Login: just needs WhatsApp number — no password
-  login:         (phone: string) => Promise<void>
+  // Login: WhatsApp number + optional password
+  login:         (phone: string, password?: string) => Promise<void>
+  signup:        (username: string, email: string, password: string) => Promise<void>
   logout:        () => void
   refresh:       () => Promise<void>   // re-fetch latest data from bot
   updateAvatar:  (dataUrl: string) => void
@@ -98,13 +99,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(false)
   }, [])
 
-  // Login by WhatsApp number
-  const login = async (phone: string) => {
+  // Login by WhatsApp number (+ optional password)
+  const login = async (phone: string, password?: string) => {
     setLoading(true)
     setError(null)
     try {
       const clean = phone.replace(/\D/g, '')
-      const { player } = await api.getPlayer(clean)
+      const { player } = await api.getPlayer(clean, password)
       const u = botPlayerToUser(clean, player)
       setUser(u)
       localStorage.setItem(STORAGE_KEY, JSON.stringify(u))
@@ -146,10 +147,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updated))
   }
 
+  const signup = async (_username: string, _email: string, _password: string) => {
+    throw new Error('Registration is done via WhatsApp. Type !register in WhatsApp first, then log in here with your phone number.')
+  }
+
   const clearError = () => setError(null)
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, error, login, logout, refresh, updateAvatar, clearError }}>
+    <AuthContext.Provider value={{ user, isLoading, error, login, signup, logout, refresh, updateAvatar, clearError }}>
       {children}
     </AuthContext.Provider>
   )
