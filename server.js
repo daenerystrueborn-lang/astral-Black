@@ -13,11 +13,15 @@ app.options("*", (req, res) => {
   res.status(204).end();
 });
 
-// Proxy /api/* → bot VPS
+// Proxy /api/* → bot backend-bridge (port 7202)
+// Bot must be running with backend-bridge.js active.
+// Players set their portal username+password via !portal in WhatsApp.
+const BOT_HOST = process.env.BOT_HOST || "http://127.0.0.1:7202";
+
 app.use(
   "/api",
   createProxyMiddleware({
-    target: "http://93.177.64.145:7814",
+    target: BOT_HOST,
     changeOrigin: true,
     proxyTimeout: 25000,
     timeout: 25000,
@@ -25,7 +29,7 @@ app.use(
       error: (err, req, res) => {
         console.error("[proxy] error:", err.message);
         if (!res.headersSent) {
-          res.status(502).json({ error: "Bot server unavailable. Try again shortly." });
+          res.status(502).json({ error: "Bot server unavailable. Make sure the bot is running." });
         }
       },
     },
